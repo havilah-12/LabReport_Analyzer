@@ -132,3 +132,9 @@ LabReport Analyzer is a full-stack project that extracts disease mentions and th
   - `db_schema/queries.sql` – Example analytical queries  
 
 ---
+# 📌 Notes
+- Database schema in `db_schema/schema.sql` — load before running app.  
+- ORM models defined in `models.py` (SQLAlchemy). 
+- Input validation rules in `schema.py` (max 250 chars, non-empty).  
+- Unit tests in `test_app.py` (run with `pytest`).  
+- Flask entry point: `app.py`.
