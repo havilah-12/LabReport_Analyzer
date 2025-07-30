@@ -85,4 +85,8 @@ Stores NLP-extracted disease names and severity levels from comments.
 ## 🛠 Notes
 
 - NLP processing (powered by spaCy) extracts `disease_name` and `severity` from `comments.text`  
-- Severity classification is rule-based, defined in the `/semantic_analysis` module  
+- Severity classification is rule-based, defined in the `/semantic_analysis` module
+
+
+
+
