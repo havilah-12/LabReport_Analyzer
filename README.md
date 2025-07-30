@@ -33,3 +33,15 @@
 ```bash
 git clone https://github.com/havilah-12/LabReport_Analyzer.git
 cd LabReport_Analyzer
+
+##🔌 API Endpoints
+
+| Method | Endpoint                | Description                        |
+|--------|-------------------------|------------------------------------|
+| GET    | `/comments`             | Retrieve all comments              |
+| POST   | `/comments`             | Submit a new comment               |
+| PUT    | `/comments/<id>`        | Update a comment                   |
+| DELETE | `/comments/<id>`        | Delete a comment                   |
+| GET    | `/disease-distribution` | Disease occurrence frequency       |
+| GET    | `/analytics-stats`      | Overall dashboard stats            |
+| GET    | `/comments-analytics`   | Comments annotated with severity   |
