@@ -32,7 +32,7 @@ LabReport Analyzer is a full-stack project that extracts disease mentions and th
 - `db_schema/` - SQL files: schema, inserts, queries  
 - `semantic_analysis/` - NLP logic (spaCy + rules)  
 - `test_app.py` - Unit tests for comment API  
-- `frontend/` - React frontend (optional if included)  
+- `frontend/` - React frontend 
 - `requirements.txt` - Python dependencies  
 - `README.md` - Project documentation  
 
