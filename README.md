@@ -22,7 +22,7 @@
 | NLP Engine   | spaCy              |
 | ORM          | SQLAlchemy         |
 | Database     | PostgreSQL         |
-| Frontend     | React (optional)   |
+| Frontend     | React    |
 
 ---
 
