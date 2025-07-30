@@ -1,53 +1,79 @@
+# 📊 Database Schema
 
-📊 Database Schema 
-This document describes the purpose and relationships of each table in the LabReport Analyzer PostgreSQL schema.
+This document describes the purpose and relationships of each table in the **LabReport Analyzer** PostgreSQL schema.
 
-🧾 Tables Overview
-1. patients
-Purpose: Stores metadata about individual patients.
+---
 
-Key Columns:
-id (Primary Key)
-name, age, gender, etc.
+## # 🧾 Tables Overview
 
-Relationships:
-One-to-many with lab_reports (a patient can have multiple lab reports).
+### ## 1. `patients`
+-- Stores metadata about individual patients.
 
-2. lab_reports
-Purpose: Represents a complete lab report submitted for a patient.
+-- **Key Columns**:  
+   -- `id` *(Primary Key)*  
+   -- `name`, `age`, `gender`, etc.
 
-Key Columns:
+-- **Relationships**:  
+   -- One-to-many with `lab_reports` (a patient can have multiple lab reports)
 
-id (Primary Key)
-patient_id (Foreign Key to patients.id)
-report_date
+---
 
-Relationships:
-One-to-many with report_items
-One-to-one or one-to-many with comments
+### ## 2. `lab_reports`
+-- Represents a complete lab report submitted for a patient.
 
-3. report_items
-Purpose: Stores detailed test results within a lab report (e.g., glucose levels, TSH, etc.).
+-- **Key Columns**:  
+   -- `id` *(Primary Key)*  
+   -- `patient_id` *(Foreign Key → patients.id)*  
+   -- `report_date`
 
-Key Columns:
-id (Primary Key)
-lab_report_id (Foreign Key to lab_reports.id)
-test_name, value, unit, reference_range
+-- **Relationships**:  
+   -- One-to-many with `report_items`  
+   -- One-to-one or one-to-many with `comments`
 
-4. comments
-Purpose: Free-text interpretation or analysis of lab results (may be written by a doctor or auto-generated).
+---
 
-Key Columns:
-id (Primary Key)
-lab_report_id (Foreign Key to lab_reports.id)
-text (the comment content)
+### ## 3. `report_items`
+-- Stores detailed test results within a lab report (e.g., glucose levels, TSH, etc.).
 
-5. disease_analytics
-Purpose: Stores NLP-extracted disease names and severity levels from comments.
+-- **Key Columns**:  
+   -- `id` *(Primary Key)*  
+   -- `lab_report_id` *(Foreign Key → lab_reports.id)*  
+   -- `test_name`, `value`, `unit`, `reference_range`
 
-Key Columns:
-id (Primary Key)
-comment_id (Foreign Key to comments.id)
-disease_name
-severity (e.g., Low, Medium, High)
+---
 
+### ## 4. `comments`
+-- Free-text interpretation or analysis of lab results.  
+-- May be written by a doctor or auto-generated.
+
+-- **Key Columns**:  
+   -- `id` *(Primary Key)*  
+   -- `lab_report_id` *(Foreign Key → lab_reports.id)*  
+   -- `text` *(Comment content)*
+
+---
+
+### ## 5. `disease_analytics`
+-- Stores NLP-extracted disease names and severity levels from comments.
+
+-- **Key Columns**:  
+   -- `id` *(Primary Key)*  
+   -- `comment_id` *(Foreign Key → comments.id)*  
+   -- `disease_name`  
+   -- `severity` *(e.g., Low, Medium, High)*
+
+---
+
+## # 🔗 Relationships Summary
+
+-- A `patient` can have multiple `lab_reports`  
+-- Each `lab_report` can have multiple `report_items`  
+-- Each `lab_report` can be associated with one or more `comments`  
+-- Each `comment` can produce multiple `disease_analytics` entries via NLP  
+
+---
+
+## # 🛠 Notes
+
+-- NLP processing (powered by spaCy) extracts `disease_name` and `severity` from `comments.text`  
+-- Severity classification is rule-based, defined in the `/semantic_analysis` module  
