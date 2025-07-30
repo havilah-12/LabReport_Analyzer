@@ -1,46 +1,134 @@
 # 🧬 LabReport Analyzer
 
-**LabReport Analyzer** is a full-stack application that uses Natural Language Processing (NLP) to extract diseases and assess severity levels from clinical lab report comments. Designed for healthcare professionals and researchers to gain insights from unstructured medical text.
+LabReport Analyzer is a full-stack project that extracts disease mentions and their severity from unstructured lab report comments using NLP. It stores structured data in a PostgreSQL database and provides REST APIs for interaction.
 
 ---
 
-## 🌟 Features
+# 🌟 Features
 
-- 🧠 NLP (spaCy) powered disease & severity detection  
-- 🗂️ PostgreSQL database to store and query structured insights  
-- ⚙️ Flask backend with RESTful API endpoints  
-- 💻 React frontend for simple UI  
-- 📈 SQL scripts for schema, sample data, and custom queries  
-
----
-
-## 🛠️ Tech Stack
-
-| Layer        | Technology         |
-| ------------ | ------------------ |
-| Backend      | Python, Flask      |
-| NLP Engine   | spaCy              |
-| ORM          | SQLAlchemy         |
-| Database     | PostgreSQL         |
-| Frontend     | React    |
+- 🧠 Disease and severity extraction using spaCy  
+- 🗃️ PostgreSQL database for structured storage  
+- ⚙️ Flask-based backend with REST API  
+- 💻 React frontend for visualization and interaction  
+- 🧾 SQL scripts for schema, sample data, and analytics queries  
+- 🧪 Includes unit tests using pytest  
 
 ---
 
-## 🚀 Getting Started
+# 🛠️ Tech Stack
 
-### 📁 Clone the Repository
+- 🐍 Python (Flask)  
+- 🧬 spaCy (NLP)  
+- 🏗️ SQLAlchemy (ORM)  
+- 🐘 PostgreSQL (Database)  
+- ⚛️ React (Frontend)  
+- ✅ Pytest (Testing)  
 
-git clone https://github.com/havilah-12/LabReport_Analyzer.git
-cd LabReport_Analyzer
+---
 
-## API Endpoints
+# 📁 Repository Structure
 
-| Method | Endpoint                | Description                        |
-|--------|-------------------------|------------------------------------|
-| GET    | `/comments`             | Retrieve all comments              |
-| POST   | `/comments`             | Submit a new comment               |
-| PUT    | `/comments/<id>`        | Update a comment                   |
-| DELETE | `/comments/<id>`        | Delete a comment                   |
-| GET    | `/disease-distribution` | Disease occurrence frequency       |
-| GET    | `/analytics-stats`      | Overall dashboard stats            |
-| GET    | `/comments-analytics`   | Comments annotated with severity   |
+- `app.py` - Flask app entry point  
+- `db_schema/` - SQL files: schema, inserts, queries  
+- `semantic_analysis/` - NLP logic (spaCy + rules)  
+- `test_app.py` - Unit tests for comment API  
+- `frontend/` - React frontend (optional if included)  
+- `requirements.txt` - Python dependencies  
+- `README.md` - Project documentation  
+
+---
+
+# 🚀 How to Run the Backend (Flask API)
+
+## 🔧 Step 1: Setup Environment
+
+- Create a virtual environment:
+  - `python -m venv venv`
+  - `source venv/bin/activate` (Linux/macOS)
+  - `venv\Scripts\activate` (Windows)
+
+- Install dependencies:
+  - `pip install -r requirements.txt`
+
+## ▶️ Step 2: Run the Flask Server
+
+- Run the app:
+  - `python app.py`
+- The API will be available at:
+  - `http://127.0.0.1:5000`
+
+## 🧪 Step 3: API Testing
+
+- Use curl, Postman, or browser to test endpoints
+
+---
+
+# 💻 How to Run the Frontend (React)
+
+## 📂 Step 1: Navigate to Frontend Directory
+
+- `cd frontend`
+
+## 📦 Step 2: Install Dependencies
+
+- `npm install`
+
+## 🟢 Step 3: Start Development Server
+
+- `npm start`  
+- Open browser at: `http://localhost:5173`
+
+---
+
+# 📡 API Endpoints
+
+## ✏️ Comments CRUD
+
+- `GET /comments` – Retrieve all comments  
+- `POST /comments` – Create a new comment  
+- `PUT /comments/<id>` – Update an existing comment  
+- `DELETE /comments/<id>` – Delete a comment  
+
+## 📊 NLP & Analytics
+
+- `GET /disease-distribution` – Frequency of diseases  
+- `GET /analytics-stats` – Dashboard metrics  
+- `GET /comments-analytics` – Comments with NLP annotations  
+
+---
+
+# ✅ Validation Rules
+
+- Comment `text` must not be empty  
+- Maximum length: **250 characters**  
+- Returns HTTP `400` with error message if invalid  
+
+---
+
+# 🧪 How to Run Tests
+
+- From project root:
+  - `pytest test_app.py`
+
+### 🔍 Test Cases:
+
+- Valid comment creation  
+- Rejection of invalid input (empty or too long)  
+
+---
+
+# 🗂️ PostgreSQL Schema
+
+- Defined in: `db_schema/schema.sql`  
+- Includes tables:
+  - `patients`  
+  - `lab_reports`  
+  - `report_items`  
+  - `comments`  
+  - `disease_analytics`
+
+- Additional SQL files:
+  - `db_schema/sample_data.sql` – Sample insertions  
+  - `db_schema/queries.sql` – Example analytical queries  
+
+---
