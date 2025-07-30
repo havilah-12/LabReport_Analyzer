@@ -4,9 +4,9 @@ This document describes the purpose and relationships of each table in the **Lab
 
 ---
 
-## # 🧾 Tables Overview
+## 🧾 Tables Overview
 
-### ## 1. `patients`
+###  1. `patients`
 -- Stores metadata about individual patients.
 
 -- **Key Columns**:  
@@ -32,7 +32,7 @@ This document describes the purpose and relationships of each table in the **Lab
 
 ---
 
-### ## 3. `report_items`
+### 3. `report_items`
 -- Stores detailed test results within a lab report (e.g., glucose levels, TSH, etc.).
 
 -- **Key Columns**:  
@@ -53,7 +53,7 @@ This document describes the purpose and relationships of each table in the **Lab
 
 ---
 
-### ## 5. `disease_analytics`
+### 5. `disease_analytics`
 -- Stores NLP-extracted disease names and severity levels from comments.
 
 -- **Key Columns**:  
@@ -64,7 +64,7 @@ This document describes the purpose and relationships of each table in the **Lab
 
 ---
 
-## # 🔗 Relationships Summary
+## 🔗 Relationships Summary
 
 -- A `patient` can have multiple `lab_reports`  
 -- Each `lab_report` can have multiple `report_items`  
@@ -73,7 +73,7 @@ This document describes the purpose and relationships of each table in the **Lab
 
 ---
 
-## # 🛠 Notes
+##  🛠 Notes
 
 -- NLP processing (powered by spaCy) extracts `disease_name` and `severity` from `comments.text`  
 -- Severity classification is rule-based, defined in the `/semantic_analysis` module  
