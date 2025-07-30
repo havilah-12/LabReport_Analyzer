@@ -30,11 +30,10 @@
 
 ### 📁 Clone the Repository
 
-```bash
 git clone https://github.com/havilah-12/LabReport_Analyzer.git
 cd LabReport_Analyzer
 
-##🔌 API Endpoints
+## API Endpoints
 
 | Method | Endpoint                | Description                        |
 |--------|-------------------------|------------------------------------|
