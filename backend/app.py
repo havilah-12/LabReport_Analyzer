@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 # --- DATABASE SETUP ---
 if DB_TYPE == "postgres":
-    POSTGRES_URL = os.getenv("POSTGRES_URL", "postgresql://postgres:postgres@localhost/lab_reports")
+    POSTGRES_URL = os.getenv("POSTGRES_URL", "postgresql://username:password@localhost/lab_reports")
     app.config["SQLALCHEMY_DATABASE_URI"] = POSTGRES_URL
 else:
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
@@ -130,6 +130,6 @@ def comments_analytics():
             "status": status
         })
     return jsonify(results)
-
+    
 if __name__ == '__main__':
     app.run(debug=True)
