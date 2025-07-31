@@ -133,6 +133,11 @@ LabReport Analyzer is a full-stack project that extracts disease mentions and th
 
 ---
 # 📌 Notes
+
+- Flask server uses *SQLite (in-memory)* by default  
+- PostgreSQL schema is available for production setup  
+- NLP logic is implemented in semantic_analysis/ using *spaCy* and rule-based logic  
+- Frontend consumes the REST API exposed by the backend
 - Database schema in `db_schema/schema.sql` — load before running app.  
 - ORM models defined in `models.py` (SQLAlchemy). 
 - Input validation rules in `schema.py` (max 250 chars, non-empty).  
