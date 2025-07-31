@@ -85,5 +85,51 @@ def delete_comment(id):
     db.session.commit()
     return '', 204
 
+@app.route("/disease-distribution", methods=["GET"])
+def disease_distribution():
+    data = db.session.query(
+        DiseaseAnalytics.disease_name,
+        db.func.count(DiseaseAnalytics.id)
+    ).group_by(DiseaseAnalytics.disease_name).all()
+
+    results = [
+        {"disease": name, "patients": count}
+        for name, count in data
+    ]
+    return jsonify(results)
+@app.route("/analytics-stats", methods=["GET"])
+def analytics_stats():
+    total_patients = db.session.query(db.func.count(DiseaseAnalytics.comment_id.distinct())).scalar()
+    total_comments = db.session.query(db.func.count(Comment.id)).scalar()
+    warnings = db.session.query(db.func.count(DiseaseAnalytics.id)).filter(DiseaseAnalytics.severity == "High").scalar()
+    resolved = total_comments - warnings
+
+    return jsonify({
+        "total_patients": total_patients,
+        "active_comments": total_comments,
+        "warnings": warnings,
+        "resolved": resolved
+    })
+@app.route("/comments-analytics", methods=["GET"])
+def comments_analytics():
+    comments = db.session.query(Comment).all()
+    results = []
+    for comment in comments:
+        analysis = DiseaseAnalytics.query.filter_by(comment_id=comment.id).first()
+        status = None
+        if analysis:
+            if analysis.severity == "High":
+                status = "warning"
+            elif analysis.severity == "Low":
+                status = "positive"
+            elif analysis.severity == "Medium":
+                status = "info"
+        results.append({
+            "id": comment.id,
+            "text": comment.text,
+            "status": status
+        })
+    return jsonify(results)
+
 if __name__ == '__main__':
     app.run(debug=True)
