@@ -1,89 +1,84 @@
-import os
 from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from marshmallow import Schema, fields, ValidationError, validate
+from models import db, Comment, DiseaseAnalytics
+from schema import CommentSchema
+from marshmallow import ValidationError
+from semantic_analysis.analytics import analytics_bp
 from dotenv import load_dotenv
-
 load_dotenv()
-
+from flask_cors import CORS
+import os
 # Environment: "sqlite" or "postgres"
 DB_TYPE = os.getenv("DB_TYPE", "sqlite")
-
 app = Flask(__name__)
-
+CORS(app, resources={r"/*": {"origins": "*"}})
 # --- DATABASE SETUP ---
 if DB_TYPE == "postgres":
-    POSTGRES_URL = os.getenv("POSTGRES_URL", "postgresql://username:password@localhost/lab_reports")
+    POSTGRES_URL = os.getenv("POSTGRES_URL", "postgresql://postgres:postgres@localhost/lab_reports")
     app.config["SQLALCHEMY_DATABASE_URI"] = POSTGRES_URL
 else:
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db.init_app(app)
+import os
 
-db = SQLAlchemy(app)
-
-# --- MODEL ---
-class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(250), nullable=False)
-
-# --- VALIDATION ---
-class CommentSchema(Schema):
-    text = fields.Str(required=True, validate=[validate.Length(min=1, max=250)])
+def execute_sql_file(file_path):
+    with app.app_context():
+        if not os.path.exists(file_path):
+            print(f"SQL file not found: {file_path}")
+            return
+        with open(file_path, 'r') as f:
+            sql = f.read()
+        with db.engine.connect() as conn:
+            for statement in sql.split(';'):
+                if statement.strip():
+                    conn.execute(statement)
 
 comment_schema = CommentSchema()
 comments_schema = CommentSchema(many=True)
 
-@app.before_first_request
-def create_tables():
+# Register the analytics blueprint
+app.register_blueprint(analytics_bp)
+
+# Flask 2.3 compatible way to create tables
+with app.app_context():
     db.create_all()
-
-# --- ROUTES ---
-
+    
 @app.route('/comments', methods=['POST'])
 def create_comment():
     try:
         data = comment_schema.load(request.json)
     except ValidationError as err:
         return jsonify(err.messages), 400
+
     comment = Comment(text=data['text'])
     db.session.add(comment)
     db.session.commit()
-    return jsonify({"id": comment.id, "text": comment.text}), 201
+    return jsonify({'id': comment.id, 'text': comment.text}), 201
 
 @app.route('/comments', methods=['GET'])
 def get_comments():
     comments = Comment.query.all()
-    return jsonify([{"id": c.id, "text": c.text} for c in comments]), 200
-
-@app.route('/comments/<int:id>', methods=['GET'])
-def get_comment(id):
-    comment = Comment.query.get(id)
-    if not comment:
-        return jsonify({"error": "Comment not found"}), 404
-    return jsonify({"id": comment.id, "text": comment.text}), 200
+    return jsonify([{'id': c.id, 'text': c.text} for c in comments]), 200
 
 @app.route('/comments/<int:id>', methods=['PUT'])
 def update_comment(id):
-    comment = Comment.query.get(id)
-    if not comment:
-        return jsonify({"error": "Comment not found"}), 404
+    comment = Comment.query.get_or_404(id)
     try:
         data = comment_schema.load(request.json)
     except ValidationError as err:
         return jsonify(err.messages), 400
+
     comment.text = data['text']
     db.session.commit()
-    return jsonify({"id": comment.id, "text": comment.text}), 200
+    return jsonify({'id': comment.id, 'text': comment.text}), 200
 
 @app.route('/comments/<int:id>', methods=['DELETE'])
 def delete_comment(id):
-    comment = Comment.query.get(id)
-    if not comment:
-        return jsonify({"error": "Comment not found"}), 404
+    comment = Comment.query.get_or_404(id)
     db.session.delete(comment)
     db.session.commit()
-    return '', 204
+    return jsonify({'message': 'Comment deleted'}), 200
 
 @app.route("/disease-distribution", methods=["GET"])
 def disease_distribution():
@@ -130,6 +125,7 @@ def comments_analytics():
             "status": status
         })
     return jsonify(results)
-    
+
+
 if __name__ == '__main__':
     app.run(debug=True)
