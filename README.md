@@ -9,7 +9,7 @@ LabReport Analyzer is a full-stack project that extracts disease mentions and th
 - 🧠 Disease and severity extraction using spaCy  
 - 🗃️ PostgreSQL database for structured storage  
 - ⚙️ Flask-based backend with REST API  
-- 💻 React frontend for visualization and interaction  
+- 💻 React + TypeScript frontend for visualization and interaction  
 - 🧾 SQL scripts for schema, sample data, and analytics queries  
 - 🧪 Includes unit tests using pytest  
 
@@ -21,8 +21,9 @@ LabReport Analyzer is a full-stack project that extracts disease mentions and th
 - 🧬 spaCy (NLP)  
 - 🏗️ SQLAlchemy (ORM)  
 - 🐘 PostgreSQL (Database)  
-- ⚛️ React (Frontend)  
-- ✅ Pytest (Testing)  
+- ⚛️ React + TypeScript (Frontend)  
+- ✅ Pytest (Testing)
+- ⚡ Vite (Build Tool)
 
 ---
 
@@ -32,7 +33,7 @@ LabReport Analyzer is a full-stack project that extracts disease mentions and th
 - `db_schema/` - SQL files: schema, inserts, queries  
 - `semantic_analysis/` - NLP logic (spaCy + rules)  
 - `test_app.py` - Unit tests for comment API  
-- `frontend/` - React frontend 
+- `frontend/` - React + TypeScript frontend 
 - `requirements.txt` - Python dependencies  
 - `README.md` - Project documentation  
 
@@ -63,7 +64,7 @@ LabReport Analyzer is a full-stack project that extracts disease mentions and th
 
 ---
 
-# 💻 How to Run the Frontend (React)
+# 💻 How to Run the Frontend 
 
 ## 📂 Step 1: Navigate to Frontend Directory
 
