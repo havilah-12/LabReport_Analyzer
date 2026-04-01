@@ -36,7 +36,8 @@ const DiseaseChart = () => {
   const [diseaseData, setDiseaseData] = useState<Disease[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/disease-distribution")
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    fetch(`${API_URL}/disease-distribution`)
       .then((res) => res.json())
       .then((data) => {
         const coloredData = data.map((d: any, i: number) => ({

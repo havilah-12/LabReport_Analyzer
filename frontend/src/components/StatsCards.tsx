@@ -11,7 +11,8 @@ const StatsCards = () => {
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/analytics-stats")
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    fetch(`${API_URL}/analytics-stats`)
       .then((res) => res.json())
       .then(setStatsData);
   }, []);
